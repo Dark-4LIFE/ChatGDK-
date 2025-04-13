@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChatBot Dark Mode</title>
+  <style>
+    :root {
+      --bg-color: #f9f9f9;
+      --text-color: #111;
+      --container-bg: #fff;
+      --message-bg: #eee;
+      --user-bg: #cceeff;
+      --bot-bg: #e0e0e0;
+      --input-bg: #fff;
+      --input-text: #000;
+      --accent-color: #00ffcc;
+    }
+
+    :root.dark-mode {
+      --bg-color: #121212;
+      --text-color: #ffffff;
+      --container-bg: #1e1e1e;
+      --message-bg: #2a2a2a;
+      --user-bg: #003344;
+      --bot-bg: #222;
+      --input-bg: #333;
+      --input-text: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    #chatContainer {
+      width: 95%;
+      max-width: 600px;
+      background-color: var(--container-bg);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      background-color: var(--message-bg);
+      border-radius: 10px;
+      padding: 10px;
+      color: var(--text-color);
+    }
+
+    .message.user {
+      background-color: var(--user-bg);
+      align-self: flex-end;
+    }
+
+    .message.bot {
+      background-color: var(--bot-bg);
+      align-self: flex-start;
+    }
+
+    .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin: 0 auto 10px;
+      display: block;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: var(--input-bg);
+      color: var(--input-text);
+    }
+
+    #sendButton {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--accent-color);
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #sendButton:hover {
+      background-color: #00e6b8;
+    }
+
+    #toggleMode {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background-color: var(--accent-color);
+      color: #000;
+      font-weight: bold;
+    }
+
+    #messages {
+      flex-grow: 1;
+      overflow-y: auto;
+      max-height: 400px;
+    }
+    
+    @keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animated {
+  animation: fadeInUp 0.5s ease-out;
+}
+  </style>
+</head>
+<body>
+  <button id="toggleMode">Schimbă Mod</button>
+
+  <div id="chatContainer">
+    <img src="Imagini.html/avatar.png" alt="Bot Avatar" class="avatar" />
+    <div id="messages"></div>
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="Scrie un mesaj..." />
+      <button id="sendButton">Trimite</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const root = document.documentElement;
+
+    // Activează tema salvată
+    if (localStorage.getItem("dark-mode") === "true") {
+      root.classList.add("dark-mode");
+    }
+
+    // Schimbă mod dark/light
+    document.getElementById("toggleMode").addEventListener("click", () => {
+      root.classList.toggle("dark-mode");
+      localStorage.setItem("dark-mode", root.classList.contains("dark-mode"));
+    });
+
+    // Enter trimite mesajul
+    document.getElementById("userInput").addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        document.getElementById("sendButton").click();
+      }
+    });
+  </script>
+</body>
+</html>
